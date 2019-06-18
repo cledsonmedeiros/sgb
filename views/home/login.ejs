@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <% include ../estrutura/head_login.ejs %>
+</head>
+<body>
+
+<!--CONTEUDO-->
+
+<form class="box" action="/entrar" method="post" autocomplete="off">
+
+    <img src="/images/sgb-logo_Logo_Logo.svg" width="180">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <p class="lead mt-2 subtituloLogin">Login</p>
+            </div>
+        </div>
+    </div>
+    <input type="text" name="usuario[login]" placeholder="Usuário" autofocus>
+    <input type="password" name="usuario[senha]" placeholder="Senha">
+
+    <div>
+        <a href="/signup" style="text-decoration: none; display: inline-block"><input type="button" name="" value="Cadastrar-se"></a>
+        <input type="submit" name="" value="Entrar" style="display: inline-block">
+    </div>
+
+</form>
+
+<!--CONTEUDO-->
+
+</body>
+</html>
