@@ -117,7 +117,7 @@ module.exports = (app) => {
 
                     db.model('livro').find(null, function (err, livros) {
                         if (err) {
-                            console.log("faiou");
+                            console.log("Falha ao deletar livro: " + err);
                             res.render('livro/index', {
                                 titulo: "SGB - Cadastrar livro",
                                 pagina: "livro"
