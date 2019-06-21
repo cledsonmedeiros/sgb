@@ -8,9 +8,6 @@
     <div class="collapse navbar-collapse" id="navbarSite">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <!--                <a class='nav-link text-center active' href="/home"><i class="fas fa-home"></i> Home</a>-->
-
-
                 <a
                 <% if (pagina === 'home') {
                 %> class='nav-link text-center active'
@@ -30,48 +27,28 @@
                    href="/pesquisar"><i class="fas fa-search"></i> Pesquisar
                 </a>
             </li>
-            <% if (user.tipo === 'admin'){
-            %>
+            <% if (user.tipo === 'admin'){ %>
                 <li class="nav-item">
                     <a
-                    <% if (pagina === 'livro') {
-                    %> class='nav-link text-center active'
-                    <%
-                    } else { %> class='nav-link text-center'
-                            <% } %>
+                    <% if (pagina === 'livro') { %>
+                        class='nav-link text-center active'
+                    <% } else { %>
+                        class='nav-link text-center'
+                    <% } %>
                        href="/livro"><i class="fas fa-book"></i> Livros
                     </a>
                 </li>
+
+            <% } else { %>
                 <li class="nav-item">
                     <a
-                    <% if (pagina === 'emprestar') {
+                    <% if (pagina === 'historico') {
                     %> class='nav-link text-center active'
                     <%
                     } else { %> class='nav-link text-center'
                             <% } %>
-                       href="/emprestar"><i class="fas fa-minus"></i> Emprestar
+                       href="/historico"><i class="fas fa-history"></i> Histórico
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a
-                    <% if (pagina === 'emprestar') {
-                    %> class='nav-link text-center active'
-                    <%
-                    } else { %> class='nav-link text-center'
-                            <% } %>
-                       href="/receber"><i class="fas fa-plus"></i> Receber
-                    </a>
-                </li>
-            <%
-            } else { %>
-                <li class="nav-item">
-                    <a class='nav-link text-center active' href="/historico"><i class="fas fa-history"></i>
-                        Histórico</a>
-                </li>
-                <li class="nav-item">
-                    <a class='nav-link text-center active'
-                            %>
-                       href="/renovar"><i class="fas fa-undo"></i> Renovar</a>
                 </li>
             <% } %>
         </ul>

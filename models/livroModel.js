@@ -1,5 +1,6 @@
 module.exports = () => {
     let db = require('./../connect_db')();
+    // let mongoose = require('mongoose');
     let Schema = require('mongoose').Schema;
 
     let livro = Schema({
@@ -18,16 +19,12 @@ module.exports = () => {
         isbn: {
             type: String,
             required: true,
-            unique: true
+            index: {unique: true}
         },
         quantidade: {
             type: String,
             required: true
-        },
-        status: {
-            type: String,
-            default: 'ativo'
-        },
+        }
     });
 
     return db.model('livro', livro);
