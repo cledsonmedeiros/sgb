@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <script>
+        function validarCPF(cpf) {
+            let cleanCPF = cpf.replace('.', '').replace('.', '').replace('-', '');
+            let Soma;
+            let Resto;
+            Soma = 0;
+
+            if (cleanCPF === "00000000000" || cleanCPF === "11111111111" || cleanCPF === "22222222222" || cleanCPF === "33333333333" || cleanCPF === "44444444444" || cleanCPF === "55555555555" || cleanCPF === "66666666666" || cleanCPF === "77777777777" || cleanCPF === "88888888888" || cleanCPF === "99999999999") {
+                return false;
+            }
+            for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(cleanCPF.substring(i - 1, i)) * (11 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto === 10) || (Resto === 11)) {
+                Resto = 0;
+            }
+            if (Resto !== parseInt(cleanCPF.substring(9, 10))) {
+                return false;
+            }
+
+            Soma = 0;
+            for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(cleanCPF.substring(i - 1, i)) * (12 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto === 10) || (Resto === 11)) {
+                Resto = 0;
+            }
+            return Resto === parseInt(cleanCPF.substring(10, 11));
+        }
+
+        function validateform() {
+            var name = document.myform.name.value;
+
+            if (!validarCPF(name)) {
+                alert("Name can't be blank");
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+<form name="myform" method="post" action="#" onsubmit="return validateform()" >
+    Name: <input type="text" name="name"><br/>
+    <input type="submit" value="register">
+</form>
+</body>
+</html>

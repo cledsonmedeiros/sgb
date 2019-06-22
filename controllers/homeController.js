@@ -60,7 +60,10 @@ module.exports = (app) => {
                     if (error) {
                         res.render('home/cadastrar', {titulo: "SGB - Cadastrar"});
                     }
-                    res.render('home/index', {titulo: "SGB - Login"});
+                    res.render('home/index', {
+                        titulo: "SGB - Login",
+                        msg: null
+                    });
                 })
             }else {
                 console.log('CPF inválido: ' + cpf);
@@ -80,25 +83,44 @@ module.exports = (app) => {
                     res.render('home/index', {titulo: "SGB - Login"});
                 }else {
                     if (!user){
-                        // console.log("Credenciais incorretas");
-                        // req.flash('danger', 'Credenciais incorretas');
                         res.render('home/index', {
                             titulo: "SGB - Home",
                             msg: 'erro'
                         });
                     }else {
                         global.user = user;
-                        res.render('home/home', {
-                            titulo: "SGB - Home",
-                            pagina: "home"
-                        });
+
+                        if (user.tipo === 'admin') {
+                            db.model('emprestimo').find({status: 'ativo'}, function (err, emprestimos) {
+                                if (!err) {
+                                    res.render('home/home', {
+                                        titulo: "SGB - Home",
+                                        pagina: "home",
+                                        emprestimos: emprestimos,
+                                        len_emprestimos: emprestimos.length,
+                                        // livros: livros
+                                    });
+                                }
+                            });
+                        }else {
+                            db.model('emprestimo').find({idusuario: user._id, status: 'ativo'}, function (err, emprestimos) {
+                                if (!err) {
+                                    res.render('home/home', {
+                                        titulo: "SGB - Home",
+                                        pagina: "home",
+                                        emprestimos: emprestimos,
+                                        len_emprestimos: emprestimos.length,
+                                        // livros: livros
+                                    });
+                                }
+                            });
+                        }
                     }
                 }
             })
         },
         logout(req, res) {
             req.session.destroy();
-            // req.flash('success', 'Você está deslogado.');
             res.render('home/index', {
                 titulo: "SGB - Login",
                 msg: 'sucesso'
@@ -106,10 +128,37 @@ module.exports = (app) => {
         },
 
         home_page(req, res) {
-            res.render('home/home', {
-                titulo: "SGB - Home",
-                pagina: "home"
-            });
+
+            if (user.tipo === 'admin') {
+                db.model('emprestimo').find({status: 'ativo'}, function (err, emprestimos) {
+                    if (!err) {
+                        res.render('home/home', {
+                            titulo: "SGB - Home",
+                            pagina: "home",
+                            emprestimos: emprestimos,
+                            len_emprestimos: emprestimos.length,
+                            // livros: livros
+                        });
+                    }
+                });
+            }else {
+                db.model('emprestimo').find({idusuario: user._id, status: 'ativo'}, function (err, emprestimos) {
+                    if (!err) {
+                        res.render('home/home', {
+                            titulo: "SGB - Home",
+                            pagina: "home",
+                            emprestimos: emprestimos,
+                            len_emprestimos: emprestimos.length,
+                            // livros: livros
+                        });
+                    }
+                });
+            }
+
+            // res.render('home/home', {
+            //     titulo: "SGB - Home",
+            //     pagina: "home"
+            // });
         }
     };
 };

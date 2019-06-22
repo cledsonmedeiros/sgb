@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <% include ../estrutura/head.ejs %>
+
+    <script>
+        function validarCPF(cpf) {
+            let cleanCPF = cpf.replace('.', '').replace('.', '').replace('-', '');
+            let Soma;
+            let Resto;
+            Soma = 0;
+
+            if (cleanCPF === "00000000000" || cleanCPF === "11111111111" || cleanCPF === "22222222222" || cleanCPF === "33333333333" || cleanCPF === "44444444444" || cleanCPF === "55555555555" || cleanCPF === "66666666666" || cleanCPF === "77777777777" || cleanCPF === "88888888888" || cleanCPF === "99999999999") {
+                return false;
+            }
+            for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(cleanCPF.substring(i - 1, i)) * (11 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto === 10) || (Resto === 11)) {
+                Resto = 0;
+            }
+            if (Resto !== parseInt(cleanCPF.substring(9, 10))) {
+                return false;
+            }
+
+            Soma = 0;
+            for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(cleanCPF.substring(i - 1, i)) * (12 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto === 10) || (Resto === 11)) {
+                Resto = 0;
+            }
+            return Resto === parseInt(cleanCPF.substring(10, 11));
+        }
+
+        function validateform() {
+            let cpf = document.formEmprestimo.cpf.value;
+
+            if (!validarCPF(cpf)) {
+                alert("CPF inválido");
+                document.getElementById("cpf").value = "";
+                return false;
+            }
+        }
+    </script>
+
+</head>
+<body>
+<% include ../estrutura/menu.ejs %>
+
+<!--CONTEUDO-->
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <h1 class="mt-3 mb-4 text-center"><%- pg_titulo %></h1>
+
+            <%- messages('alerta/mensagem', locals) %>
+
+            <form action="/emprestar/livro" method="post" autocomplete="off" name="formEmprestimo" onsubmit="return validateform()">
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="isbn">ISBN:</label>
+                        <input type="text" class="form-control" id="isbn" name="isbn" required readonly value="<%=emprestimo.isbn%>">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="cpf">CPF:</label>
+                        <input type="text" class="form-control" id="cpf" name="cpf" required autofocus>
+                    </div>
+                </div>
+
+                <div class="form-row justify-content-center">
+                    <a href="/livro/list"><button type="button" class="btn btn-outline-primary"><i class="fas fa-chevron-left"></i> Voltar</button></a>
+                    <button type="submit" class="btn btn-outline-primary ml-3"><i class="fas fa-minus"></i> Emprestar</button>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+
+<!--CONTEUDO-->
+<% include ../estrutura/scripts.ejs %>
+</body>
+</html>
+

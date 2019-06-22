@@ -40,7 +40,7 @@ module.exports = (app) => {
             livro.autor = livro.autor.toString().trim();
             livro.edicao = livro.edicao.toString().trim();
             livro.isbn = livro.isbn.toString().trim().trim();
-            livro.quantidade = livro.quantidade.toString().trim();
+            // livro.quantidade = livro.quantidade.toString().trim();
 
             if (livro._id === '') {
                 livro._id = null;
@@ -50,7 +50,7 @@ module.exports = (app) => {
                     'autor': livro.autor === '',
                     'edicao': livro.edicao === '',
                     'isbn': livro.isbn === '',
-                    'quantidade': livro.quantidade === '',
+                    'quantidade': livro.quantidade < 1,
                 };
 
                 if (validacoes.titulo || validacoes.autor || validacoes.edicao || validacoes.isbn || validacoes.quantidade){
@@ -65,7 +65,7 @@ module.exports = (app) => {
                                 'autor': livro.autor === '',
                                 'edicao': livro.edicao === '',
                                 'isbn': livro.isbn === '',
-                                'quantidade': livro.quantidade === '',
+                                'quantidade': livro.quantidade < 1,
                             };
 
                             res.render('livro/index', {
@@ -110,7 +110,7 @@ module.exports = (app) => {
                                             autor: '',
                                             edicao: '',
                                             isbn: '',
-                                            quantidade: ''
+                                            quantidade: 1
                                         },
                                         lenLivros: livros.length,
                                         pg_titulo: "Cadastrar livro",
@@ -142,7 +142,7 @@ module.exports = (app) => {
                                             autor: "",
                                             edicao: "",
                                             isbn: "",
-                                            quantidade: ""
+                                            quantidade: 1
                                         },
                                         lenLivros: livros.length,
                                         pg_titulo: "Cadastrar livro",
@@ -166,7 +166,7 @@ module.exports = (app) => {
                             'autor': livro.autor === '',
                             'edicao': livro.edicao === '',
                             'isbn': livro.isbn === '',
-                            'quantidade': livro.quantidade === '',
+                            'quantidade': livro.quantidade < 1,
                         };
 
                         db.model('livro').find(null, function (err, livros) {

@@ -22,7 +22,7 @@ module.exports = () => {
             index: {unique: true}
         },
         quantidade: {
-            type: String,
+            type: Number,
             required: true
         }
     });

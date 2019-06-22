@@ -23,7 +23,6 @@
                     <th class="align-middle text-center">Edição</th>
                     <th class="align-middle text-center">ISBN</th>
                     <th class="align-middle text-center">Quantidade</th>
-<!--                    <th class="align-middle text-center">Status</th>-->
                     <th class="align-middle text-center">Ação</th>
                 </tr>
                 </thead>
@@ -35,16 +34,13 @@
                         <td class="align-middle text-center"><%- livro.edicao %></td>
                         <td class="align-middle text-center"><%- livro.isbn %></td>
                         <td class="align-middle text-center"><%- livro.quantidade %></td>
-<!--                        <td class="align-middle text-center"><%- livro.status%></td>-->
                         <td class="align-middle text-center">
                             <a href="/livro/edit/<%-livro._id.toString()%>"><button class="btn btn-outline-primary"><i class="fas fa-pencil-alt"></i></button></a>
                             <a href="/livro/delete/<%-livro._id.toString()%>"><button class="btn btn-outline-primary"><i class="fas fa-trash"></i></button></a>
                             <a href="/livro/emprestar/<%-livro._id.toString()%>"><button class="btn btn-outline-primary"><i class="fas fa-minus"></i></button></a>
-                            <a href="/livro/receber/<%-livro._id.toString()%>"><button class="btn btn-outline-primary"><i class="fas fa-plus"></i></button></a>
                         </td>
                     </tr>
                 <% }) %>
-
                 </tbody>
             </table>
         </div>
