@@ -11,17 +11,14 @@ module.exports = (app) => {
             });
         },
         pesquisar_livro(req, res) {
-
             const {pesquisa} = req.body;
             pesquisa.tipo = pesquisa.tipo.toString().trim();
             pesquisa.entrada = pesquisa.entrada.toString().trim();
-
             if (pesquisa.tipo === 'titulo'){
                 db.model('livro').find(
                     { "titulo": { "$regex": pesquisa.entrada, "$options": "i" } },
                     function(err,docs) {
                         if (err) {
-                            // req.flash('danger', 'Nenhum resultado encontrado.');
                             res.render('pesquisar/index', {
                                 titulo: "SGB - Pesquisar livros",
                                 pagina: "pesquisar",
@@ -48,13 +45,11 @@ module.exports = (app) => {
                     }
                 );
             }
-
             if (pesquisa.tipo === 'autor'){
                 db.model('livro').find(
                     { "autor": { "$regex": pesquisa.entrada, "$options": "i" } },
                     function(err,docs) {
                         if (err) {
-                            // req.flash('danger', 'Nenhum resultado encontrado.');
                             res.render('pesquisar/index', {
                                 titulo: "SGB - Pesquisar livros",
                                 pagina: "pesquisar",
@@ -76,18 +71,15 @@ module.exports = (app) => {
                                     pg_titulo: "Pesquisar livros",
                                 });
                             }
-
                         }
                     }
                 );
             }
-
             if (pesquisa.tipo === 'isbn'){
                 db.model('livro').find(
                     { "isbn": { "$regex": pesquisa.entrada, "$options": "i" } },
                     function(err,docs) {
                         if (err) {
-                            // req.flash('danger', 'Nenhum resultado encontrado.');
                             res.render('pesquisar/index', {
                                 titulo: "SGB - Pesquisar livros",
                                 pagina: "pesquisar",
@@ -109,21 +101,10 @@ module.exports = (app) => {
                                     pg_titulo: "Pesquisar livros",
                                 });
                             }
-
                         }
                     }
                 );
             }
-
-        },
-        list_pesquisa(req, res) {
-
-        },
-        update_livro(req, res) {
-
-        },
-        delete_livro(req, res) {
-
         },
     };
 };

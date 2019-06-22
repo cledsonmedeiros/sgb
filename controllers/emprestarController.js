@@ -87,9 +87,6 @@ module.exports = (app) => {
             });
         },
         emprestar_livro(req, res) {
-
-
-
             let emprestimo = req.body;
             let dataEmprestimo = dataAtualFormatada('/').toString();
             let dataEntrega = addDias(dataAtual('/').toString(), 7, '/');
@@ -138,8 +135,6 @@ module.exports = (app) => {
                                                                                 pagina: "livro",
                                                                                 livros: livros
                                                                             });
-                                                                        } else {
-                                                                            console.log('erro: ' + err);
                                                                         }
                                                                     });
                                                                 }
@@ -148,7 +143,6 @@ module.exports = (app) => {
                                                     });
                                                 }
                                             });
-
                                         } else {
                                             db.model('livro').find(null, function (err, livros) {
                                                 if (!err) {
@@ -189,7 +183,6 @@ module.exports = (app) => {
                         pg_titulo:  'Meu histórico',
                         emprestimos: emprestimos_inativos,
                         len_emprestimos: emprestimos_inativos.length,
-                        // livros: livros
                     });
                 } else {
                     db.model('emprestimo').find({idusuario: user._id, status: 'ativo'}, function (err, emprestimos) {
@@ -199,7 +192,6 @@ module.exports = (app) => {
                             pagina: "home",
                             emprestimos: emprestimos,
                             len_emprestimos: emprestimos.length,
-                            // livros: livros
                         });
                     });
                 }
@@ -229,7 +221,6 @@ module.exports = (app) => {
                                         pagina: "home",
                                         emprestimos: emprestimos,
                                         len_emprestimos: emprestimos.length,
-                                        // livros: livros
                                     });
                                 }
                             });
@@ -267,10 +258,8 @@ module.exports = (app) => {
                     });
 
                     // AJUSTAR ESTOQUE
-
                     db.model('livro').findOne({_id: emprestimo.idlivro}, function (err, livro) {
                         if (!err) {
-                            console.log(livro);
                             let novaQuantidade = (parseInt(livro.quantidade) + 1);
                             livro.quantidade = novaQuantidade;
 
@@ -292,13 +281,6 @@ module.exports = (app) => {
                             });
                         }
                     });
-
-                    // db.model('livro').find({_id: emprestimo.idlivro}, function (err, livro) {
-                    //     if (!err) {
-                    //
-
-                    //     }
-                    // });
                 }
             });
         },

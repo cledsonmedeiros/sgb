@@ -4,7 +4,6 @@ module.exports = (app) => {
 
     return {
         index_livro(req, res) {
-
             let validar = {
                 'titulo': false,
                 'autor': false,
@@ -12,7 +11,6 @@ module.exports = (app) => {
                 'isbn': false,
                 'quantidade': false,
             };
-
             db.model('livro').find(null, function (err, livros) {
                 if (!err) {
                     res.render('livro/index', {
@@ -40,11 +38,8 @@ module.exports = (app) => {
             livro.autor = livro.autor.toString().trim();
             livro.edicao = livro.edicao.toString().trim();
             livro.isbn = livro.isbn.toString().trim().trim();
-            // livro.quantidade = livro.quantidade.toString().trim();
-
             if (livro._id === '') {
                 livro._id = null;
-
                 let validacoes = {
                     'titulo': livro.titulo === '',
                     'autor': livro.autor === '',
@@ -52,14 +47,9 @@ module.exports = (app) => {
                     'isbn': livro.isbn === '',
                     'quantidade': livro.quantidade < 1,
                 };
-
                 if (validacoes.titulo || validacoes.autor || validacoes.edicao || validacoes.isbn || validacoes.quantidade){
-
-                    // console.log("entrou");
-
                     db.model('livro').find(null, function (err, livros) {
                         if (!err) {
-
                             let validar = {
                                 'titulo': livro.titulo === '',
                                 'autor': livro.autor === '',
@@ -67,7 +57,6 @@ module.exports = (app) => {
                                 'isbn': livro.isbn === '',
                                 'quantidade': livro.quantidade < 1,
                             };
-
                             res.render('livro/index', {
                                 titulo: "SGB - Cadastrar livro",
                                 pagina: "livro",
@@ -91,7 +80,6 @@ module.exports = (app) => {
                         if (error) {
                             db.model('livro').find(null, function (err, livros) {
                                 if (!err) {
-
                                     let validar = {
                                         'titulo': false,
                                         'autor': false,
@@ -99,7 +87,6 @@ module.exports = (app) => {
                                         'isbn': false,
                                         'quantidade': false,
                                     };
-
                                     req.flash('danger', 'Falha ao cadastrar livro.');
                                     res.render('livro/index', {
                                         titulo: "SGB - Cadastrar livro",
@@ -119,11 +106,9 @@ module.exports = (app) => {
                                     });
                                 }
                             });
-
                         } else {
                             db.model('livro').find(null, function (err, livros) {
                                 if (!err) {
-
                                     let validar = {
                                         'titulo': false,
                                         'autor': false,
@@ -131,7 +116,6 @@ module.exports = (app) => {
                                         'isbn': false,
                                         'quantidade': false,
                                     };
-
                                     req.flash('success', 'Livro cadastrado com sucesso');
                                     res.render('livro/index', {
                                         titulo: "SGB - Cadastrar livro",
@@ -156,11 +140,7 @@ module.exports = (app) => {
                 }
             } else {
                 db.model('livro').findOneAndUpdate({_id: req.body.livro._id}, req.body.livro, {new: true}, function (err, doc) {
-                    // console.log('atualizado: ' + doc);
                     if (!err){
-
-                        // console.log('entrou aqui');
-
                         let validar = {
                             'titulo': livro.titulo === '',
                             'autor': livro.autor === '',
@@ -168,7 +148,6 @@ module.exports = (app) => {
                             'isbn': livro.isbn === '',
                             'quantidade': livro.quantidade < 1,
                         };
-
                         db.model('livro').find(null, function (err, livros) {
                             if (err) {
                                 console.log("Falha ao listar livros: " + err);
@@ -186,8 +165,6 @@ module.exports = (app) => {
                                 });
                             }
                         });
-                    }else{
-                        console.log('falha: ' + err);
                     }
                 });
             }
@@ -211,9 +188,6 @@ module.exports = (app) => {
         },
         update_livro(req, res) {
             db.model('livro').findById(req.params.id, function (err, doc) {
-
-                // console.log('entrou aqui');
-
                 let validar = {
                     'titulo': false,
                     'autor': false,
@@ -221,8 +195,6 @@ module.exports = (app) => {
                     'isbn': false,
                     'quantidade': false,
                 };
-
-
                 if (!err) {
                     res.render('livro/index', {
                         titulo: "SGB - Editar livro",
@@ -239,7 +211,6 @@ module.exports = (app) => {
         delete_livro(req, res) {
             db.model('livro').findByIdAndRemove(req.params.id, function (err) {
                 if (!err) {
-
                     db.model('livro').find(null, function (err, livros) {
                         if (err) {
                             console.log("Falha ao deletar livro: " + err);
