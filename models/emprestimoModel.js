@@ -43,6 +43,10 @@ module.exports = () => {
             type: String,
             default: 'ativo'
         },
+        renovacao: {
+            type: Boolean,
+            default: false
+        },
     });
 
     return db.model('emprestimo', emprestimo);

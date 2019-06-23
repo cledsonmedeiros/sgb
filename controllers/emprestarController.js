@@ -202,31 +202,47 @@ module.exports = (app) => {
 
             db.model('emprestimo').findById(idemprestimo, function (err, emprestimo) {
                 if (!err) {
-                    let array_data = emprestimo.dataentrega.split('/');
-                    let data_formatada = array_data[1] + '/' + array_data[0] + '/' + array_data[2];
+                    // VERIFICAR RENOVAÇÃO
+                    if (!emprestimo.renovacao) {
+                        let array_data = emprestimo.dataentrega.split('/');
+                        let data_formatada = array_data[1] + '/' + array_data[0] + '/' + array_data[2];
 
-                    let novaDataEntrega = addDias(data_formatada, 7, '/');
+                        let novaDataEntrega = addDias(data_formatada, 7, '/');
 
-                    emprestimo.dataentrega = novaDataEntrega;
+                        emprestimo.dataentrega = novaDataEntrega;
+                        emprestimo.renovacao = true;
 
-                    // EFETUAR ATUALIZAÇÃO
-                    db.model('emprestimo').findOneAndUpdate({_id: idemprestimo}, emprestimo, {new: true}, function (err, doc) {
-                        if (!err) {
-                            // RECUPERAR EMPRESTIMOS
-                            db.model('emprestimo').find({status: 'ativo'}, function (err, emprestimos) {
-                                if (!err) {
-                                    req.flash('success', 'Empréstimo renovado');
-                                    res.render('home/home', {
-                                        titulo: "SGB - Home",
-                                        pagina: "home",
-                                        emprestimos: emprestimos,
-                                        len_emprestimos: emprestimos.length,
-                                    });
-                                }
-                            });
-                        }
-                    });
-
+                        // EFETUAR ATUALIZAÇÃO
+                        db.model('emprestimo').findOneAndUpdate({_id: idemprestimo}, emprestimo, {new: true}, function (err, doc) {
+                            if (!err) {
+                                // RECUPERAR EMPRESTIMOS
+                                db.model('emprestimo').find({status: 'ativo'}, function (err, emprestimos) {
+                                    if (!err) {
+                                        req.flash('success', 'Empréstimo renovado');
+                                        res.render('home/home', {
+                                            titulo: "SGB - Home",
+                                            pagina: "home",
+                                            emprestimos: emprestimos,
+                                            len_emprestimos: emprestimos.length,
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }else {
+                        // RECUPERAR EMPRESTIMOS
+                        db.model('emprestimo').find({status: 'ativo'}, function (err, emprestimos) {
+                            if (!err) {
+                                req.flash('danger', 'Empréstimo já foi renovado');
+                                res.render('home/home', {
+                                    titulo: "SGB - Home",
+                                    pagina: "home",
+                                    emprestimos: emprestimos,
+                                    len_emprestimos: emprestimos.length,
+                                });
+                            }
+                        });
+                    }
                 }
             });
         },
