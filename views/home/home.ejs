@@ -43,6 +43,7 @@
                         <th scope="col">Edição</th>
                         <th scope="col">Empréstimo</th>
                         <th scope="col">Prazo</th>
+                        <th scope="col">Ação</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,6 +54,9 @@
                             <td class="align-middle text-center"><%- emprestimo.edicao %></td>
                             <td class="align-middle text-center"><%- emprestimo.dataemprestimo %></td>
                             <td class="align-middle text-center"><%- emprestimo.dataentrega %></td>
+                            <td class="align-middle text-center">
+                                <a href="/emprestimo/renovar/<%-emprestimo._id.toString()%>"><button class="btn btn-outline-primary"><i class="fas fa-undo"></i></button></a>
+                            </td>
                         </tr>
                     <% }) %>
                     </tbody>
