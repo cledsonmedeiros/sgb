@@ -21,11 +21,17 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Express session middleware
+// app.use(expressSession({
+//     resave: true,
+//     saveUninitialized: true,
+//     secret: 'sgb'
+// }));
+app.set('trust proxy', 1) // trust first proxy
 app.use(expressSession({
-    resave: true,
-    saveUninitialized: true,
-    secret: 'sgb'
-}));
+    secret: 's3Cur3',
+    name: 'sessionId',
+})
+);
 
 //Express messages middleware
 app.use(require('connect-flash')());
@@ -36,28 +42,28 @@ app.use(function (req, res, next) {
 
 // Express validator middleware
 app.use(expressValidator({
-    errorFormatter: function(param, msg, value) {
+    errorFormatter: function (param, msg, value) {
         var namespace = param.split('.')
-            , root    = namespace.shift()
+            , root = namespace.shift()
             , formParam = root;
 
-        while(namespace.length) {
+        while (namespace.length) {
             formParam += '[' + namespace.shift() + ']';
         }
         return {
-            param : formParam,
-            msg   : msg,
-            value : value
+            param: formParam,
+            msg: msg,
+            value: value
         };
     }
 }));
 
 consign({})
-  .include('models')
-  .then('controllers')
-  .then('routes')
-  .into(app)
-;
+    .include('models')
+    .then('controllers')
+    .then('routes')
+    .into(app)
+    ;
 
 app.use(error.notFound);
 app.use(error.serverError);
